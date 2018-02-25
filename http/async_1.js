@@ -13,6 +13,12 @@ http.createServer((req,res)=>{
 
 
 
+
+/**
+ * doc文档
+ * http://caolan.github.io/async/docs.html
+ */
+
 //串行执行
 //series函数的第一个参数可以是一个数组也可以是一个JSON对象，
 //参数类型不同，影响的是返回数据的格式。
@@ -78,4 +84,37 @@ function waterfall(){
   	console.log(res);
   })	
 }
-waterfall();
+//waterfall();
+
+
+
+
+
+//并行执行
+//parallel函数是并行执行多个函数，每个函数都是立即执行，不需要等待其它函数先执行。
+//传给最终callback的数组中的数据按照tasks中声明的顺序，而不是执行完成的顺序
+function parallel(){
+  async.parallel([(callback)=>{
+     var i = 0;
+     setInterval(function(){
+      console.log('one：' , new Date());
+      if(++i >= 3){
+        clearInterval(this);
+        callback(null , 'one done');
+      }
+     } , 1000)
+  },(callback)=>{
+     var i = 0;
+     setInterval(function(){
+     console.log('two：' , new Date());      
+      if(++i >= 3){
+        clearInterval(this);
+        callback(null , 'two done');
+      }
+     } , 1000)
+  }] , (err ,res)=>{
+     if(err) throw err;
+     console.log(res);
+  })
+}
+parallel();
