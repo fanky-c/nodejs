@@ -8,7 +8,7 @@
             "type": "node",
             "request": "launch",
             "name": "nodejs测试",
-            "program": "${workspaceFolder}\\http\\http.js"
+            "program": "${workspaceFolder}/http/BinarySearchTree.js"
         }
     ]
 }

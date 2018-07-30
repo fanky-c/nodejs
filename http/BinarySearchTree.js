@@ -19,6 +19,9 @@ function BinarySearchTree() {
 
     //初始化一个二叉搜索树，声明一个私有变量root代表根节点。
     var root = null;
+    
+    //初始二叉搜索树的元素个数
+    var size = 0
 
     // 这是插入节点的私有属性，我们会在insert方法中直接调用。那么我们先去看insert方法。
     // 其实这里也不复杂，但是用到了递归，如果大家对递归不太了解，可以去百度搜一下。后面的文章我也会写一些算法的相关内容。
@@ -185,19 +188,6 @@ function BinarySearchTree() {
         return node;
     }
 
-    // 其实这个方法很简单，一看就明白了。
-    // 如果root是null，说明是一个空树，我们直接让newNode为root就可以了，如果不是,我们再调用insertNode那个私有方法。
-    this.insert = function (key) {
-        var newNode = new Node(key);
-
-        if (root === null) {
-            root = newNode;
-        } else {
-            insertNode(root, newNode);
-        }
-    }
-
-
     this.inOrderTraverse = function (callback) {
         inOrderTraverseNode(root, callback);
     }
@@ -210,6 +200,19 @@ function BinarySearchTree() {
         postOrderTraverseNode(root, callback);
     }
 
+    // 其实这个方法很简单，一看就明白了。
+    // 如果root是null，说明是一个空树，我们直接让newNode为root就可以了，如果不是,我们再调用insertNode那个私有方法。
+    this.insert = function (key) {
+        var newNode = new Node(key);
+        size++;
+
+        if (root === null) {
+            root = newNode;
+        } else {
+            insertNode(root, newNode);
+        }
+    }    
+
     this.min = function () {
         return minNode(root);
     }
@@ -218,19 +221,17 @@ function BinarySearchTree() {
         return maxNode(root);
     }
 
-    this.search = function (key) {
+    this.has = function (key) {
         return searchNode(root, key);
     }
 
-    this.has = function(key){
-
-    }
-
     this.size = function () {
-        return root.length;
+        if(root == null) return 0;
+        return size;
     }
 
     this.remove = function (key) {
+        size--;
         root = removeNode(root, key);
     }
 }
@@ -242,4 +243,9 @@ tree.insert(-1);
 tree.insert(4);
 tree.insert(2);
 tree.insert(10);
+tree.remove(2);
+tree.postOrderTraverse(function(res){
+    console.log(res);
+})
+console.log(tree.has(101));
 console.log(tree.size());
